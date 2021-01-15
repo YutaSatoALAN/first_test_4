@@ -17,7 +17,9 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
+
     final String email = widget.email;
+
     return ChangeNotifierProvider(
       create: (_) => MainModel()..getUsername(email),
       child: Consumer<MainModel>(
@@ -29,74 +31,84 @@ class _MainPageState extends State<MainPage> {
               title: Text('$usernameさんのマイページ'),
               backgroundColor: Colors.teal,
             ),
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 150,
-                    child: RaisedButton(
-                      child: Text(
-                        '撮影',
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                      color: Colors.teal,
-                      textColor: Colors.white,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ListPage(email),
+            body: Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('images/background.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 150,
+                      child: RaisedButton(
+                        child: Text(
+                          '撮影',
+                          style: TextStyle(
+                            fontSize: 18,
                           ),
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: 150,
-                    child: RaisedButton(
-                      child: Text(
-                        'データ確認',
-                        style: TextStyle(
-                          fontSize: 18,
                         ),
-                      ),
-                      color: Colors.teal,
-                      textColor: Colors.white,
-                      onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => ,
-                        //   ),
-                        // );
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: 150,
-                    child: RaisedButton(
-                      child: Text(
-                        'ログアウト',
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                      color: Colors.teal,
-                      textColor: Colors.white,
-                      onPressed: () {
-                        Navigator.pushAndRemoveUntil(
+                        color: Colors.teal,
+                        textColor: Colors.white,
+                        onPressed: () {
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => MyApp(),
+                              builder: (context) => ListPage(email),
                             ),
-                            (_) => false);
-                      },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      width: 150,
+                      child: RaisedButton(
+                        child: Text(
+                          'データ確認',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                        color: Colors.teal,
+                        textColor: Colors.white,
+                        onPressed: () {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => ,
+                          //   ),
+                          // );
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: 150,
+                      child: RaisedButton(
+                        child: Text(
+                          'ログアウト',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                        color: Colors.teal,
+                        textColor: Colors.white,
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MyApp(),
+                              ),
+                              (_) => false);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );

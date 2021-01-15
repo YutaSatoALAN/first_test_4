@@ -32,68 +32,79 @@ class _DescriptionPageState extends State<DescriptionPage> {
               title: Text(model.taskName),
               backgroundColor: Colors.teal,
             ),
-            body: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: double.infinity,
-                      child: Text(
-                        '説明',
-                        style: TextStyle(
-                          fontSize: 25.0,
+            body: Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('images/background.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        width: double.infinity,
+                        child: Text(
+                          '説明',
+                          style: TextStyle(
+                            fontSize: 25.0,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: model.descriptionTexts
-                          .map(
-                            (text) => model.itemizedTextRow(text),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    height: 350,
-                    child: FutureBuilder(
-                      future: model.initializeVideoPlayerFuture,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return AspectRatio(
-                            aspectRatio: model.controller.value.aspectRatio,
-                            child: VideoPlayer(model.controller),
-                          );
-                        } else {
-                          return Center(child: CircularProgressIndicator());
-                        }
-                      },
-                    ),
-                  ),
-                  RaisedButton(
-                    onPressed: () {
-                      model.playPause();
-                    },
-                    child: SizedBox(
-                      width: 60,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.play_arrow),
-                          Icon(Icons.pause),
-                        ],
+                    Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: model.descriptionTexts
+                            .map(
+                              (text) => model.itemizedTextRow(text),
+                            )
+                            .toList(),
                       ),
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      height: 350,
+                      child: FutureBuilder(
+                        future: model.initializeVideoPlayerFuture,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            return AspectRatio(
+                              aspectRatio: model.controller.value.aspectRatio,
+                              child: VideoPlayer(model.controller),
+                            );
+                          } else {
+                            return Center(child: CircularProgressIndicator());
+                          }
+                        },
+                      ),
+                    ),
+                    RaisedButton(
+                      onPressed: () {
+                        model.playPause();
+                      },
+                      child: SizedBox(
+                        width: 60,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.play_arrow),
+                            Icon(Icons.pause),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             floatingActionButton: FloatingActionButton.extended(

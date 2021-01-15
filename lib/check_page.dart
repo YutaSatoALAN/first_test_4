@@ -73,14 +73,15 @@ class _CheckPageState extends State<CheckPage> {
 
   Future<void> _waitNavigation() async {
     setState(() => _loading = true);
-    await videoUpload().then((_) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MainPage(widget.email),
-        ),
-      );
-    });
+    await videoUpload();
+    setState(() => _loading = false);
+    await _showDialog(context, '送信完了');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MainPage(widget.email),
+      ),
+    );
   }
 
   @override
@@ -94,47 +95,58 @@ class _CheckPageState extends State<CheckPage> {
               title: Text('動画確認'),
               backgroundColor: Colors.teal,
             ),
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 450,
-                    child: FutureBuilder(
-                      future: _initializeVideoPlayerFuture,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return AspectRatio(
-                              aspectRatio: _controller.value.aspectRatio,
-                              child: VideoPlayer(_controller));
-                        } else {
-                          return Center(child: CircularProgressIndicator());
-                        }
-                      },
-                    ),
-                  ),
-                  RaisedButton(
-                    onPressed: () {
-                      setState(() {
-                        if (_controller.value.isPlaying) {
-                          _controller.pause();
-                        } else {
-                          _controller.play();
-                        }
-                      });
-                    },
-                    child: Icon(
-                      _controller.value.isPlaying
-                          ? Icons.pause
-                          : Icons.play_arrow,
-                    ),
-                    shape: CircleBorder(
-                      side: BorderSide(
-                        style: BorderStyle.none,
+            body: Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('images/background.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 450,
+                      child: FutureBuilder(
+                        future: _initializeVideoPlayerFuture,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            return AspectRatio(
+                                aspectRatio: _controller.value.aspectRatio,
+                                child: VideoPlayer(_controller));
+                          } else {
+                            return Center(child: CircularProgressIndicator());
+                          }
+                        },
                       ),
                     ),
-                  ),
-                ],
+                    RaisedButton(
+                      onPressed: () {
+                        setState(() {
+                          if (_controller.value.isPlaying) {
+                            _controller.pause();
+                          } else {
+                            _controller.play();
+                          }
+                        });
+                      },
+                      child: Icon(
+                        _controller.value.isPlaying
+                            ? Icons.pause
+                            : Icons.play_arrow,
+                      ),
+                      shape: CircleBorder(
+                        side: BorderSide(
+                          style: BorderStyle.none,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             floatingActionButtonLocation:
@@ -189,6 +201,25 @@ class _CheckPageState extends State<CheckPage> {
           );
         },
       ),
+    );
+  }
+
+  Future _showDialog(BuildContext context, String title) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

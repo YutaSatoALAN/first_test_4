@@ -29,7 +29,7 @@ class DescriptionModel extends ChangeNotifier {
             ),
           ),
         ];
-        this.controller = VideoPlayerController.asset('assets/FT.mp4');
+        this.controller = VideoPlayerController.asset('assets/FT2.mp4');
         break;
       case 'legTapping':
         this.descriptionTexts = [
